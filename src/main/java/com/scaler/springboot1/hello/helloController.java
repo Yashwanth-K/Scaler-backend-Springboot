@@ -1,13 +1,10 @@
 package com.scaler.springboot1.hello;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-//@RestController
-@Controller
+@RestController
+//@Controller
 @RequestMapping("/hello")
 public class helloController {
 
@@ -20,13 +17,16 @@ public class helloController {
     public String helloYou(@RequestParam("name") String name) {
         return "Hello "+name+"!";
     }
+    // same method name but different parameters
+    @PostMapping("/world")
+    public String helloWorld(@RequestBody UserRequest userRequest) {
+        return "Hello "+userRequest.getName()+"!";
+
+    }
 }
 
-@Controller
-@RequestMapping("/web")
-public class WebController {
-    @GetMapping("/home")
-    public String home() {
-        return "homepage";  // Returns a view (e.g., homepage.html)
-    }
+class UserRequest{
+    private String name;
+    public String getName() {return name;}
+    public void setName(String name) {this.name = name;}
 }

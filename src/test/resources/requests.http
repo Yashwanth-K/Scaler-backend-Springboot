@@ -1,0 +1,6 @@
+POST http://localhost:7071/hello/world
+Content-Type: application/json
+
+{
+  "name": "John"
+}
