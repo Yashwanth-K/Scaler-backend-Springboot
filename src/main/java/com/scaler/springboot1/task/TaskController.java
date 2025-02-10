@@ -20,11 +20,11 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping
+    @GetMapping("")
     ResponseEntity<List<Task>> getTasks() {
         return ResponseEntity.ok(taskService.getTasks());
     }
-    @PostMapping
+    @PostMapping("")
     ResponseEntity<Task> createTask(@RequestBody CreateTaskDTO createTaskDTO) {
         return ResponseEntity.ok(taskService.addTask(createTaskDTO.getName(), createTaskDTO.getDueDate()));
     }
@@ -44,6 +44,7 @@ public class TaskController {
     ResponseEntity<Void> deleteTask(@PathVariable Integer id) {
         taskService.deleteTask(id);
         return ResponseEntity.noContent().build();
+//        what does build() do?
     }
 //     Todo3 - handle exception for IllegalArgumentException (due date, name)
     @ExceptionHandler(IllegalArgumentException.class)
@@ -55,10 +56,10 @@ public class TaskController {
 
 //     Todo4 - in error responses, also send the error message in the response body
     @ExceptionHandler(TaskService.TaskNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleTaskNotFoundException(TaskService.TaskNotFoundException ex) {
-        Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("error", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    public ResponseEntity<String> handleTaskNotFoundException(TaskService.TaskNotFoundException ex) {
+//        Map<String, String> errorResponse = new HashMap<>();
+//        errorResponse.put("error-notask", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 //     Todo5: create a ResponseBodyDTO - only return name, dueDate, completed
 
